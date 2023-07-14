@@ -1,23 +1,18 @@
 import { Body, Controller, Get, Param, Query, Req } from '@nestjs/common';
 import { Request } from 'express';
 import { AppService } from './app.service';
+import { CatsService } from './cats/cats.service';
 
 @Controller('cats')
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly appService: AppService, private readonly catsService: CatsService) {}
 
   @Get('hello/:id/:name') // pathValue
-  getHello(
-    @Req() req: Request,
-    @Param() param,
-    @Body() body,
-    @Query('age') age:number
-  ): string {
-    // console.log('req : ', req);
-    console.log('param : ', param);
-    console.log('queryParam : ', age);
+  getHello(): string {
     
+    console.log("app.controller 호출");
+    const cats = this.catsService.findAllCats();
     
-    return this.appService.getHello();
+    return cats;
   }
 }
